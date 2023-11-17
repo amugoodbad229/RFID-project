@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project implements an RFID-based door lock system with integrated temperature screening. The system uses RFID technology for contactless user identification and an infrared thermopile sensor for measuring body temperature during authentication. 
+This project implements an RFID-based door lock system with integrated temperature screening. The system uses RFID technology for contactless user identification and an infrared thermopile sensor for measuring body temperature during authentication.
 
 The core goals of this project are:
 
