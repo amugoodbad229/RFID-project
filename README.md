@@ -27,13 +27,12 @@ The RC522 continuously polls for nearby RFID tags. When detected, the tag UID is
 
 The circuit diagram below illustrates the component wiring:
 
-<img src="https://github.com/amugoodbad229/RFID-project/blob/main/Hardware%20setup.jpeg" width="100">
+<img src="https://github.com/amugoodbad229/RFID-project/blob/main/Hardware%20setup.jpeg" width="250">
 The thermopile sensor is positioned facing outward near the access point at a ~5cm distance from the expected hand position. The LCD panel, buzzer and RFID reader are also mounted near the access point. The servo module is connected to the lock.
 
 ## Software Flow
 
-()
-<img src="https://github.com/amugoodbad229/RFID-project/blob/main/RFID%20flowchart%20new.png" width="100">
+<img src="https://github.com/amugoodbad229/RFID-project/blob/main/RFID%20flowchart%20new.png" width="250">
 The Arduino program performs the following sequence:
 
 1. Continuously poll for new RFID tags in range 
