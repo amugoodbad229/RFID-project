@@ -27,7 +27,7 @@ The RC522 continuously polls for nearby RFID tags. When detected, the tag UID is
 
 The circuit diagram below illustrates the component wiring:
 
-<img src="[https://github.com/favicon.ico](https://github.com/amugoodbad229/RFID-project/assets/61212671/6e209b23-3768-4635-aea6-7f1a24060c31)" width="48">
+<img src="https://github.com/amugoodbad229/RFID-project/blob/main/Hardware%20setup.jpeg" width="48">
 The thermopile sensor is positioned facing outward near the access point at a ~5cm distance from the expected hand position. The LCD panel, buzzer and RFID reader are also mounted near the access point. The servo module is connected to the lock.
 
 ## Software Flow
