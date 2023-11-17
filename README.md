@@ -21,17 +21,19 @@ The system consists of the following key components:
 - **Buzzer** - Audio notification for access denial alerts
 - **SG90 Servo** - Motorized mechanism for lock/unlock
 
-The RC522 continuously polls for nearby RFID tags. When detected, the tag UID is extracted and verified against a database of authorized IDs. If valid, the MLX90614 sensor is triggered to acquire the user's temperature. The measurement is analyzed by threshold logic to determine access. Under normal conditions, the servo unlocks the door. For elevated temperatures, access is denied.
+The RC522 continuously polls for nearby RFID tags. When detected, the tag UID is extracted and verified against a database of authorized IDs. If valid, the MLX90614 sensor is triggered to acquire the user's temperature. The measurement is analyzed by threshold logic to determine access. Under normal conditions, the servo unlocks the door. At elevated temperatures, access is denied.
 
 ## Hardware Setup
 
 The circuit diagram below illustrates the component wiring:
 
-![Circuit Diagram](circuit.png)
+![Hardware Setup](https://github.com/amugoodbad229/RFID-project/assets/61212671/6e209b23-3768-4635-aea6-7f1a24060c31)
 
 The thermopile sensor is positioned facing outward near the access point at a ~5cm distance from the expected hand position. The LCD panel, buzzer and RFID reader are also mounted near the access point. The servo module is connected to the lock.
 
 ## Software Flow
+
+![RFID flowchart](https://github.com/amugoodbad229/RFID-project/assets/61212671/d7e4437c-7426-4b22-bdf0-252b7b9ca608)
 
 The Arduino program performs the following sequence:
 
