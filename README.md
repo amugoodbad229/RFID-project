@@ -193,6 +193,3 @@ Tip: Test each module independently first (RFID read, temperature read, servo mo
 - Arduino community examples and documentation
 
 ---
-
-## License
-This repository currently does not include a license file. Consider adding a LICENSE (e.g., MIT, Apache-2.0) to clarify usage and distribution terms.
