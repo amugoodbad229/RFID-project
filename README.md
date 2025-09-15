@@ -62,8 +62,8 @@ Key components:
 - Breadboard, jumper wires, and suitable power source
 
 Example wiring and physical layout are shown here:
-- Hardware setup:
   <img src="https://github.com/amugoodbad229/RFID-project/blob/main/Hardware%20setup.jpeg" width="350">
+- Hardware setup:
 - Software flowchart: shown in [Software Flow](#software-flow)
 
 Note: Pin mappings can vary based on your sketch. If you change pins in code, update wiring accordingly.
