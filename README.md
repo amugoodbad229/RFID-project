@@ -1,65 +1,199 @@
-# RFID Door Lock System with Temperature Screening
+# RFID Door Lock System with Integrated Temperature Screening
+
+A touchless access control prototype that combines RFID user authentication with non-contact temperature screening for added safety and hygiene.
+
+![Hardware setup](Hardware%20setup.jpeg)
+
+[![Platform: Arduino](https://img.shields.io/badge/Platform-Arduino-00979D?logo=arduino&logoColor=white)](https://www.arduino.cc/)
+![Language: C++](https://img.shields.io/badge/C%2B%2B-17-blue?logo=c%2B%2B)
+![Repo size](https://img.shields.io/github/repo-size/amugoodbad229/RFID-project)
+![Last commit](https://img.shields.io/github/last-commit/amugoodbad229/RFID-project)
+
+---
+
+## Table of Contents
+- [Overview](#overview)
+- [Features](#features)
+- [Hardware](#hardware)
+- [System Architecture](#system-architecture)
+- [Software Flow](#software-flow)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Library Dependencies](#library-dependencies)
+  - [Configuration](#configuration)
+  - [Build and Upload](#build-and-upload)
+- [Usage](#usage)
+- [Troubleshooting](#troubleshooting)
+- [Roadmap](#roadmap)
+- [Safety Notes](#safety-notes)
+- [Acknowledgments](#acknowledgments)
+- [License](#license)
+
+---
 
 ## Overview
 
-This project implements an RFID-based door lock system with integrated temperature screening. The system uses RFID technology for contactless user identification and an infrared thermopile sensor for measuring body temperature during authentication.
+This project implements an RFID-based door lock system with integrated temperature screening. The system uses an MFRC522 RFID reader for contactless user identification and an MLX90614 infrared thermopile sensor for measuring body temperature during authentication. A 16x2 LCD provides user feedback, a buzzer signals alerts, and a servo actuates the lock.
 
-The core goals of this project are:
+Core goals:
+- Touchless fever screening during access control
+- Enhanced security via RFID authentication
+- Improved hygiene and convenience over traditional methods
 
-- Touchless biometric fever screening for access control
-- Enhanced security through RFID user authentication
-- Improved hygiene and convenience over traditional access methods
+---
+
+## Features
+- RFID authentication using MFRC522 (13.56 MHz)
+- Non-contact temperature measurement via MLX90614
+- Configurable temperature thresholds for alerts and lock behavior
+- Visual feedback on 16x2 LCD; audible feedback via buzzer
+- Servo-based door lock actuation
+- Clear, guided user flow with minimal interaction time
+
+---
+
+## Hardware
+
+Key components:
+- Arduino Uno (or compatible)
+- MFRC522 RFID Reader (SPI, 13.56 MHz)
+- MLX90614 IR Thermopile (I2C)
+- 16x2 LCD (parallel or I2C backpack)
+- SG90 (or similar) micro servo
+- Buzzer
+- Breadboard, jumper wires, and suitable power source
+
+Example wiring and physical layout are shown here:
+- Hardware setup: <img src="https://github.com/amugoodbad229/RFID-project/blob/main/Hardware%20setup.jpeg" width="350">
+- Software flowchart: shown in [Software Flow](#software-flow)
+
+Note: Pin mappings can vary based on your sketch. If you change pins in code, update wiring accordingly.
+
+---
 
 ## System Architecture
 
-The system consists of the following key components:
+High-level operation:
+1. The RC522 module continuously polls for nearby RFID tags.
+2. On detecting a tag, the UID is read and checked against an authorized list.
+3. If authorized, the MLX90614 takes a temperature reading.
+4. Based on configured thresholds, the system either unlocks the door or denies access with an appropriate message and buzzer signal.
+5. The system resets and waits for the next tag.
 
-- **Arduino UNO** - Microcontroller for integrating all modules
-- **RC522 RFID Reader** - Reads RFID tag data over 125 kHz frequency
-- **MLX90614 IR Thermopile** - Non-contact temperature sensor 
-- **16x2 LCD** - Displays access prompts, alerts and real-time data
-- **Buzzer** - Audio notification for access denial alerts
-- **SG90 Servo** - Motorized mechanism for lock/unlock
+Primary modules:
+- Arduino Uno — central controller integrating all peripherals
+- MFRC522 — reads RFID tag UIDs over SPI at 13.56 MHz
+- MLX90614 — non-contact temperature sensing over I2C
+- 16x2 LCD — user prompts and status messages
+- Buzzer — audible alerts
+- Servo — lock/unlock actuation
 
-The RC522 continuously polls for nearby RFID tags. When detected, the tag UID is extracted and verified against a database of authorized IDs. If valid, the MLX90614 sensor is triggered to acquire the user's temperature. The measurement is analyzed by threshold logic to determine access. Under normal conditions, the servo unlocks the door. At elevated temperatures, access is denied.
-
-## Hardware Setup
-
-The circuit diagram below illustrates the component wiring:
-
-<img src="https://github.com/amugoodbad229/RFID-project/blob/main/Hardware%20setup.jpeg" width="350">
-
-The thermopile sensor is positioned facing outward near the access point at a ~5cm distance from the expected hand position. The LCD panel, buzzer and RFID reader are also mounted near the access point. The servo module is connected to the lock.
+---
 
 ## Software Flow
 
 <img src="https://github.com/amugoodbad229/RFID-project/blob/main/RFID%20flowchart.jpeg" width="350">
 
-The Arduino program performs the following sequence:
+Default decision logic:
+- Temp < 36.5°C: Unlock door
+- 36.5°C ≤ Temp ≤ 37.5°C: Keep locked, mild fever warning
+- Temp > 37.5°C: Keep locked, high fever alert
 
-1. Continuously poll for new RFID tags in range 
-2. When found, extract unique UID 
-3. Verify if UID is in the authorized database
-4. If authorized, trigger MLX90614 temperature reading
-5. Apply temperature threshold logic
-   1. Temp < 36.5C: Unlock door
-   2. 36.5C < Temp < 37.5C: Lock door, mild fever warning
-   3. Temp > 37.5C: Lock door, high fever alert 
-6. Reset system to detect next tag
+These thresholds can be adjusted in the code (see [Configuration](#configuration)).
 
-## Usage Guide
+---
 
-To operate the system:
+## Getting Started
 
-1. Hold RFID card within 2–5 cm of the reader
-2. Keep hand at a distance of 4-6cm from thermopile sensor
-3. Wait 2-3 seconds for temperature measurement
-4. If authorized and no fever detected, door will unlock
-5. Follow LCD instructions for all other use cases  
+### Prerequisites
+- Arduino IDE (2.x recommended) or PlatformIO
+- A supported Arduino board (e.g., Uno)
+- USB cable and drivers installed
 
-## Future Enhancements
+### Library Dependencies
+Install via Arduino IDE Library Manager where possible:
+- MFRC522 by GithubCommunity or Miguel Balboa (search “MFRC522”)
+- Adafruit MLX90614 library (search “Adafruit MLX90614”)
+- Servo (built-in)
+- LiquidCrystal (built-in) or LiquidCrystal_I2C (if using I2C LCD backpack)
 
-- Add WiFi connectivity for cloud logging, alerts and analytics
-- Implement machine learning model for intelligent access control based on trends
-- Encrypt RFID communication for security against adversaries
-- Account management system for secure user enrollment
+Note: Ensure the selected libraries match the includes used in the sketch.
+
+### Configuration
+In the main sketch:
+- Set authorized UIDs list (array/string set containing tag UIDs)
+- Adjust temperature thresholds:
+  - MIN_CLEAR_TEMP_C (e.g., 36.5)
+  - MAX_CLEAR_TEMP_C (e.g., 37.5)
+- Confirm pin assignments for:
+  - MFRC522: SS(SDA), RST, SCK, MOSI, MISO
+  - MLX90614: SDA, SCL
+  - Servo signal pin
+  - Buzzer pin
+  - LCD type (parallel vs I2C) and address (if I2C)
+
+Tip: Test each module independently first (RFID read, temperature read, servo motion, LCD text).
+
+### Build and Upload
+1. Connect your Arduino board via USB.
+2. Open the sketch in Arduino IDE.
+3. Select the correct board and COM port.
+4. Install missing libraries if prompted.
+5. Click Upload.
+6. Open Serial Monitor (optional) for debugging output.
+
+---
+
+## Usage
+1. Present an authorized RFID card within ~2–5 cm of the reader.
+2. Hold your hand/forehead at ~4–6 cm from the MLX90614 sensor.
+3. Wait 2–3 seconds for measurement and decision.
+4. If authorized and within safe temperature range, the servo unlocks the door.
+5. Follow on-screen LCD instructions for any alerts or errors.
+
+---
+
+## Troubleshooting
+- RFID not detected:
+  - Verify SPI wiring (SS, RST, SCK, MOSI, MISO) and 3.3V power to MFRC522.
+  - Check library versions and that SPI is enabled for your board.
+- Temperature reads 0 or NaN:
+  - Confirm I2C wiring (SDA/SCL), pull-ups, and correct address (default 0x5A).
+  - Ensure the Adafruit MLX90614 library is installed.
+- LCD shows garbled text or nothing:
+  - Verify contrast (for parallel), I2C address (0x27 or 0x3F are common), and wiring.
+- Servo jitter or weak motion:
+  - Provide adequate 5V power; avoid powering the servo from the Arduino’s 5V if it browns out.
+  - Common ground between servo and Arduino is required.
+- Buzzer silent:
+  - Check polarity (if active buzzer) and confirm pin mode/output in code.
+
+---
+
+## Roadmap
+- Wi‑Fi connectivity for cloud logging, alerts, and analytics
+- Encrypted RFID communication for improved security
+- Role-based account management and secure user enrollment
+- On-device settings menu (via buttons) for thresholds and calibration
+- Optional mask detection or additional sensors
+- Basic data logging to EEPROM/SD
+- Intelligent access heuristics (experimentation)
+
+---
+
+## Safety Notes
+- This is a hobbyist prototype and not a medical device.
+- MLX90614 readings can be affected by distance, emissivity, and environment; calibrate and validate for your use case.
+- Do not rely solely on this system for health screening or safety-critical access control.
+
+---
+
+## Acknowledgments
+- MFRC522 library by the open-source community
+- Adafruit MLX90614 library
+- Arduino community examples and documentation
+
+---
+
+## License
+This repository currently does not include a license file. Consider adding a LICENSE (e.g., MIT, Apache-2.0) to clarify usage and distribution terms.
