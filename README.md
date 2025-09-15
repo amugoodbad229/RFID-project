@@ -2,8 +2,6 @@
 
 A touchless access control prototype that combines RFID user authentication with non-contact temperature screening for added safety and hygiene.
 
-![Hardware setup](Hardware%20setup.jpeg)
-
 [![Platform: Arduino](https://img.shields.io/badge/Platform-Arduino-00979D?logo=arduino&logoColor=white)](https://www.arduino.cc/)
 ![Language: C++](https://img.shields.io/badge/C%2B%2B-17-blue?logo=c%2B%2B)
 ![Repo size](https://img.shields.io/github/repo-size/amugoodbad229/RFID-project)
@@ -64,7 +62,8 @@ Key components:
 - Breadboard, jumper wires, and suitable power source
 
 Example wiring and physical layout are shown here:
-- Hardware setup: <img src="https://github.com/amugoodbad229/RFID-project/blob/main/Hardware%20setup.jpeg" width="350">
+- Hardware setup:
+  <img src="https://github.com/amugoodbad229/RFID-project/blob/main/Hardware%20setup.jpeg" width="350">
 - Software flowchart: shown in [Software Flow](#software-flow)
 
 Note: Pin mappings can vary based on your sketch. If you change pins in code, update wiring accordingly.
